@@ -84,6 +84,8 @@ public class calculator extends javax.swing.JFrame {
         equation=equation.replace("√", "Math.sqrt");
         //change % to number divided by 100
         equation=equation.replace("%", "/100");
+        //change double negative to positive
+        equation=equation.replace("--", "+");
         return equation;
     }
     
