@@ -22,25 +22,25 @@ import javax.swing.UIManager;
  *
  * @author Avi's computer
  */
-public class frame extends javax.swing.JFrame {
+public class calculator extends javax.swing.JFrame {
 
     /**
-     * Creates new form frame
+     * Creates new form calculator
      */
     private boolean negative=false;
-    public frame() {
+    public calculator() {
         //set the design to a better one then the default
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } 
         catch (Exception ex) {
-            Logger.getLogger(frame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(calculator.class.getName()).log(Level.SEVERE, null, ex);
         }
         //se the jframe icon
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("calculator.png")));
         //make the calculator
         initComponents();
-        //center frame
+        //center calculator
         Dimension dim=Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
@@ -49,25 +49,31 @@ public class frame extends javax.swing.JFrame {
     My methods
     ******************************/
     public void addNumber(String num) {
+        //limit the length to 15 charaters
         if (enter.getText().length()>=15) {
             return;
         }
+        //if it is 0 or O replace the text
         if (enter.getText().equals("0")||enter.getText().equals("O")) {
             enter.setText(num);
         }
         else {
+            //otherwise add the new number to the current entry
             enter.setText(enter.getText()+num);
         }
     }
     
     public void addOperation(String operation) {
+        //if it is 0 do nothing
         if (enter.getText().equals("0")) {
             return;
         }
+        //if it is O add the operation to the equation
         else if (enter.getText().equals("O")) {
             equation.setText(equation.getText()+operation);
             return;
         }
+        //otherwise do the normal thing
         equation.setText(equation.getText()+enter.getText()+operation);
         enter.setText("0");
         negative=false;
@@ -78,14 +84,11 @@ public class frame extends javax.swing.JFrame {
         equation=equation.replace("√", "Math.sqrt");
         //change % to number divided by 100
         equation=equation.replace("%", "/100");
-        //change Mod to %
-        equation=equation.replace("Mod", "%");
         return equation;
     }
     
     public boolean isOperation(char operation) {
-        //d is for Mod
-        return operation=='+'||operation=='-'||operation=='*'||operation=='/'||operation=='d';
+        return operation=='+'||operation=='-'||operation=='*'||operation=='/';
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,7 +103,7 @@ public class frame extends javax.swing.JFrame {
         ContentPanel = new javax.swing.JPanel();
         NumberPanel = new javax.swing.JPanel();
         back = new javax.swing.JButton();
-        mod = new javax.swing.JButton();
+        CE = new javax.swing.JButton();
         C = new javax.swing.JButton();
         plusMinus = new javax.swing.JButton();
         sqrt = new javax.swing.JButton();
@@ -162,17 +165,17 @@ public class frame extends javax.swing.JFrame {
             }
         });
 
-        mod.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        mod.setText("Mod");
-        mod.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        mod.setMaximumSize(new java.awt.Dimension(35, 27));
-        mod.setMinimumSize(new java.awt.Dimension(35, 27));
-        mod.setOpaque(false);
-        mod.setPreferredSize(new java.awt.Dimension(37, 27));
-        mod.setRequestFocusEnabled(false);
-        mod.addActionListener(new java.awt.event.ActionListener() {
+        CE.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        CE.setText("CE");
+        CE.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        CE.setMaximumSize(new java.awt.Dimension(35, 27));
+        CE.setMinimumSize(new java.awt.Dimension(35, 27));
+        CE.setOpaque(false);
+        CE.setPreferredSize(new java.awt.Dimension(37, 27));
+        CE.setRequestFocusEnabled(false);
+        CE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modActionPerformed(evt);
+                CEActionPerformed(evt);
             }
         });
 
@@ -501,7 +504,7 @@ public class frame extends javax.swing.JFrame {
                     .addGroup(NumberPanelLayout.createSequentialGroup()
                         .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(C, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -553,7 +556,7 @@ public class frame extends javax.swing.JFrame {
             .addGroup(NumberPanelLayout.createSequentialGroup()
                 .addGroup(NumberPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(C, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(plusMinus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sqrt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -589,7 +592,6 @@ public class frame extends javax.swing.JFrame {
         );
 
         scrollPane.setBorder(null);
-        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         topPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -718,19 +720,23 @@ public class frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        //if is not the last charater remove the last diget from the string
         if (enter.getText().length()>1) {
             enter.setText(enter.getText().substring(0,enter.getText().length()-1));
         }
         else {
+            //otherwise set it to 0
             enter.setText("0");
         }
     }//GEN-LAST:event_backActionPerformed
 
-    private void modActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modActionPerformed
-        addOperation("Mod");
-    }//GEN-LAST:event_modActionPerformed
+    private void CEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CEActionPerformed
+        //clear entry
+        enter.setText("0");
+    }//GEN-LAST:event_CEActionPerformed
 
     private void plusMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusMinusActionPerformed
+        //if it is not 0 or O set it to a the other sign
         if (enter.getText().charAt(0)=='0'||enter.getText().charAt(0)=='O') {
             return;
         }
@@ -745,8 +751,10 @@ public class frame extends javax.swing.JFrame {
     }//GEN-LAST:event_plusMinusActionPerformed
 
     private void sqrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sqrtActionPerformed
+        //add the square root sign around it all
         enter.setText("√("+enter.getText()+")");
         equation.setText(equation.getText()+enter.getText());
+        //set the value to O
         enter.setText("O");
         negative=false;
     }//GEN-LAST:event_sqrtActionPerformed
@@ -822,23 +830,29 @@ public class frame extends javax.swing.JFrame {
     }//GEN-LAST:event_percentActionPerformed
 
     private void oneOverXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneOverXActionPerformed
+        //suround it by one over x
         enter.setText("1/("+enter.getText()+")");
+        //set the equation to the new value
         equation.setText(equation.getText()+enter.getText());
+        //reset enter to O
         enter.setText("O");
         negative=false;
     }//GEN-LAST:event_oneOverXActionPerformed
 
     private void equalsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equalsActionPerformed
         String answer ="";
+        //get if the last string is an operation
         if (isOperation(equation.getText().charAt(equation.getText().length()-1))) {
+            //if it it is grab the newest number
             answer=equation.getText()+enter.getText();
         }
         else {
+            //just handle the current equation
             answer=equation.getText();
         }
-        System.out.println(answer);
+        //process answer to convert it to javascript syntax
         answer = preprocess(answer);
-        System.out.println(answer);
+        //use the javascript ti do stuff
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("JavaScript");
         equation.setText(" ");
@@ -848,10 +862,12 @@ public class frame extends javax.swing.JFrame {
             equation.setText("Oops, error");
             answer=" ";
         }
+        //display the answer
         enter.setText(answer);
     }//GEN-LAST:event_equalsActionPerformed
 
     private void CActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CActionPerformed
+        //clear everything
         equation.setText(" ");
         enter.setText("0");
     }//GEN-LAST:event_CActionPerformed
@@ -906,25 +922,26 @@ public class frame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(calculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(calculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(calculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(calculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frame().setVisible(true);
+                new calculator().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton C;
+    private javax.swing.JButton CE;
     private javax.swing.JPanel ContentPanel;
     private javax.swing.JMenu Help;
     private javax.swing.JPanel NumberPanel;
@@ -945,7 +962,6 @@ public class frame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JButton mod;
     private javax.swing.JButton multiply;
     private javax.swing.JButton nine;
     private javax.swing.JButton one;
